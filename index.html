@@ -1,68 +1,263 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harlem Spartan SHOP</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<title>Harlem Spartan SHOP</title>
+    body {
+      background-color: #0d0d1a;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+    }
 
-<link rel="stylesheet" href="style.css">
+    /* ── NAVBAR ── */
+    .navbar {
+      background: #111127;
+      border-bottom: 1px solid #1e1e3a;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      height: 65px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-logo-name span { color: #e74c3c; }
+
+    /* ── BODY ── */
+    .shop-body { padding: 36px 32px; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #e74c3c;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* ── GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 1100px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 750px)  { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .cards-grid { grid-template-columns: 1fr; } }
+
+    /* ── CARD ── */
+    .item-card {
+      background: #13132a;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #1e1e3a;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+
+    .item-card:hover {
+      border-color: #c0392b;
+      transform: translateY(-3px);
+    }
+
+    .item-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .item-img-placeholder {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a0808 0%, #2a0a0a 50%, #0a0520 100%);
+      font-size: 48px;
+    }
+
+    .item-info { padding: 14px 16px 16px; }
+
+    .item-category {
+      font-size: 11px;
+      font-weight: 800;
+      color: #e74c3c;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .item-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .buy-btn {
+      background: #c0392b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .buy-btn:hover { background: #a93226; transform: scale(1.03); }
+    .buy-btn:active { transform: scale(0.97); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0d0d1a; }
+    ::-webkit-scrollbar-thumb { background: #c0392b; border-radius: 3px; }
+  </style>
 </head>
-
 <body>
 
-<header>
-    <div class="logo">
-        discord.gg/harlemspatan
-    </div>
-</header>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-name">Harlem <span>Spartan</span> SHOP</div>
+    </a>
+  </nav>
 
+  <!-- SHOP BODY -->
+  <div class="shop-body">
+    <div class="section-label">Roles</div>
+    <div class="cards-grid" id="cards-grid"></div>
+  </div>
 
-<section class="hero">
+  <script>
+    // ══════════════════════════════════════════════════════
+    //  DONNÉES DES ARTICLES — modifie ici !
+    //
+    //  - name       : nom de l'article
+    //  - category   : label affiché en rouge au-dessus
+    //  - emoji      : affiché si pas d'image
+    //  - imgSrc     : chemin vers ton image (ex: "images/tec9.png")
+    //  - robloxLink : lien vers le game pass Roblox
+    // ══════════════════════════════════════════════════════
+    const items = [
+      {
+        name: "Tec-9",
+        category: "ROLES",
+        emoji: "🔫",
+        // imgSrc: "images/tec9.png",
+        robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI"
+      },
+      {
+        name: "Glock 17 Switch",
+        category: "ROLES",
+        emoji: "🔫",
+        // imgSrc: "images/glock17switch.png",
+        robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI"
+      },
+      {
+        name: "Walther PPK",
+        category: "ROLES",
+        emoji: "🔫",
+        // imgSrc: "images/walther.png",
+        robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI"
+      },
+      {
+        name: "Glock 17 EXT",
+        category: "ROLES",
+        emoji: "🔫",
+        // imgSrc: "images/glock17ext.png",
+        robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI"
+      },
+      {
+        name: "Glock Drum",
+        category: "ROLES",
+        emoji: "🔫",
+        // imgSrc: "images/glockdrum.png",
+        robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI"
+      },
+      {
+        name: "Mac-10",
+        category: "ROLES",
+        emoji: "🔫",
+        // imgSrc: "images/mac10.png",
+        robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI"
+      },
+      {
+        name: "Revolver",
+        category: "ROLES",
+        emoji: "🔫",
+        // imgSrc: "images/revolver.png",
+        robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI"
+      },
+      {
+        name: "Skorpion",
+        category: "ROLES",
+        emoji: "🔫",
+        // imgSrc: "images/skorpion.png",
+        robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI"
+      },
+    ];
 
-<h1>Harlem Spartan SHOP</h1>
-<p>ROLES BUY</p>
+    // ══════════════════════════════════════════════════════
+    //  GÉNÉRATION DES CARTES (ne pas modifier)
+    // ══════════════════════════════════════════════════════
+    const grid = document.getElementById('cards-grid');
 
-</section>
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'item-card';
 
+      const imgHTML = item.imgSrc
+        ? `<img class="item-img" src="${item.imgSrc}" alt="${item.name}">`
+        : `<div class="item-img-placeholder">${item.emoji}</div>`;
 
-<div class="shop">
-
-
-<div class="card">
-
-<h2>Helper</h2>
-
-<button onclick="buy('https://www.roblox.com/game-pass/1874775787/Helper')">
-🛒 Buy
-</button>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>AK-47</h2>
-
-<button onclick="buy('TON_AUTRE_GAMEPASS')">
-🛒 Buy
-</button>
-
-</div>
-
-
-</div>
-
-
-<script>
-
-function buy(link){
-    window.location.href = link;
-}
-
-</script>
-
+      card.innerHTML = `
+        ${imgHTML}
+        <div class="item-info">
+          <div class="item-category">${item.category}</div>
+          <div class="item-name">${item.name}</div>
+          <div class="item-footer">
+            <a class="buy-btn" href="${item.robloxLink}" target="_blank" rel="noopener">
+              🛒 Buy
+            </a>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
 
 </body>
 </html>
