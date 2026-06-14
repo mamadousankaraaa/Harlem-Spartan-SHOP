@@ -1,0 +1,75 @@
+body {
+    margin:0;
+    background:#080808;
+    color:white;
+    font-family:Arial;
+}
+
+
+header {
+    padding:20px;
+    background:#111;
+    border-bottom:2px solid red;
+}
+
+
+.logo {
+    color:red;
+    font-size:26px;
+    font-weight:bold;
+}
+
+
+.hero {
+    text-align:center;
+    padding:50px;
+}
+
+
+.hero h1 {
+    color:#ff0000;
+    font-size:45px;
+    text-shadow:0 0 20px red;
+}
+
+
+.shop {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    padding:30px;
+}
+
+
+.card {
+    background:#151515;
+    padding:25px;
+    border-radius:20px;
+    border:1px solid #900;
+    text-align:center;
+}
+
+
+button {
+    width:100%;
+    padding:15px;
+    background:red;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+
+button:hover {
+    box-shadow:0 0 20px red;
+}
+
+
+@media(max-width:600px){
+    .shop{
+        grid-template-columns:1fr;
+    }
+}
