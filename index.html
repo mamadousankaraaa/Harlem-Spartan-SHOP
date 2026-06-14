@@ -218,5 +218,52 @@
     buildCards(hr,      'grid-hr',      'HR ROLES');
   </script>
 
+
+  <!-- POPUP -->
+  <div id="popup-overlay" style="
+    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;">
+    <div style="
+      background: #13132a;
+      border: 2px solid #c0392b;
+      border-radius: 16px;
+      padding: 36px 40px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(192,57,43,0.3);">
+      
+      <div style="font-size: 36px; margin-bottom: 14px;">⚠️</div>
+      
+      <h2 style="color: #e74c3c; font-size: 20px; font-weight: 800; margin-bottom: 24px; letter-spacing: 1px;">
+        IMPORTANT
+      </h2>
+
+      <!-- FRANÇAIS -->
+      <p style="color: #fff; font-size: 15px; font-weight: 600; line-height: 1.7; margin-bottom: 20px;">
+        🇫🇷 Après votre achat, veuillez ouvrir un <span style="color:#e74c3c; font-weight:800;">ticket shop</span> dans le serveur Discord pour recevoir votre rôle.
+      </p>
+
+      <hr style="border: none; border-top: 1px solid #1e1e3a; margin-bottom: 20px;">
+
+      <!-- ENGLISH -->
+      <p style="color: #aaa; font-size: 15px; font-weight: 600; line-height: 1.7; margin-bottom: 28px;">
+        🇬🇧 After your purchase, please open a <span style="color:#e74c3c; font-weight:800;">shop ticket</span> in the Discord server to receive your role.
+      </p>
+
+      <button onclick="document.getElementById('popup-overlay').style.display='none'" style="
+        background: #c0392b;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 36px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;">
+        ✅ J'ai compris / I understand
+      </button>
+    </div>
+  </div>
 </body>
 </html>
