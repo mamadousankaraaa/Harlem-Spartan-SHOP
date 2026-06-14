@@ -27,28 +27,31 @@
     }
 
     .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-
-    .nav-logo-name { font-size: 20px; font-weight: 800; color: #ffffff; letter-spacing: 0.3px; }
+    .nav-logo-name { font-size: 20px; font-weight: 800; color: #ffffff; }
     .nav-logo-name span { color: #e74c3c; }
 
     .shop-body { padding: 36px 32px; }
 
+    .section-block { margin-bottom: 50px; }
+
     .section-label {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 800;
       color: #e74c3c;
       letter-spacing: 2.5px;
       text-transform: uppercase;
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .section-divider {
-      border: none;
-      border-top: 1px solid #1e1e3a;
-      margin: 40px 0 30px;
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1e1e3a;
     }
-
-    .section-block { margin-bottom: 10px; }
 
     .cards-grid {
       display: grid;
@@ -72,17 +75,13 @@
 
     .item-img { width: 100%; height: 160px; object-fit: cover; display: block; }
 
-    .item-img-placeholder {
-      width: 100%;
-      height: 160px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1a0808 0%, #2a0a0a 50%, #0a0520 100%);
-      font-size: 48px;
-    }
-
     .item-info { padding: 14px 16px 16px; }
+
+    .item-emoji {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
 
     .item-category {
       font-size: 11px;
@@ -94,23 +93,18 @@
     }
 
     .item-name {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #fff;
       margin-bottom: 6px;
     }
 
     .item-price {
-      font-size: 13px;
-      font-weight: 700;
-      color: #aaa;
+      font-size: 14px;
+      font-weight: 800;
+      color: #e74c3c;
       margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
-
-    .item-price span { color: #e74c3c; font-size: 14px; font-weight: 800; }
 
     .item-footer { display: flex; align-items: center; justify-content: flex-end; }
 
@@ -133,20 +127,6 @@
     .buy-btn:hover { background: #a93226; transform: scale(1.03); }
     .buy-btn:active { transform: scale(0.97); }
 
-    /* Badge HR */
-    .hr-badge {
-      display: inline-block;
-      background: #c0392b22;
-      border: 1px solid #c0392b;
-      color: #e74c3c;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      padding: 3px 10px;
-      border-radius: 50px;
-      margin-bottom: 6px;
-    }
-
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #0d0d1a; }
     ::-webkit-scrollbar-thumb { background: #c0392b; border-radius: 3px; }
@@ -161,50 +141,55 @@
   </nav>
 
   <div class="shop-body">
-
-    <!-- ── SECTION ROLES ── -->
     <div class="section-block">
-      <div class="section-label">Roles</div>
-      <div class="cards-grid" id="grid-roles"></div>
+      <div class="section-label">Members Roles</div>
+      <div class="cards-grid" id="grid-members"></div>
     </div>
 
-    <hr class="section-divider">
-
-    <!-- ── SECTION ROLE HR ── -->
     <div class="section-block">
-      <div class="section-label">Role HR</div>
+      <div class="section-label">Staff Roles</div>
+      <div class="cards-grid" id="grid-staff"></div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-label">HR Roles</div>
       <div class="cards-grid" id="grid-hr"></div>
     </div>
-
   </div>
 
   <script>
     const IMAGE = "harlem_spartan.png";
 
-    const roles = [
-      { name: "Helper",              price: 100,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Support",             price: 150,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Moderator",           price: 200,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Administrator",       price: 250,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Head Of Staff",       price: 300,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Head Admin",          price: 350,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Left Arm",            price: 400,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Second in Commands",  price: 450,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "First in Commands",   price: 500,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Staff Management",    price: 550,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Right Arms",          price: 600,  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+    const members = [
+      { emoji: "🎒", name: "Active Members",      price: "15 R$",   robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🪖", name: "Elite",               price: "25 R$",   robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🚬", name: "Gangster's",           price: "50 R$",   robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🗿", name: "Real Gangster's",      price: "100 R$",  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "⚓", name: "Original Gangster's",  price: "200 R$",  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🎓", name: "Captain",              price: "350 R$",  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🗽", name: "Headz Captain's",      price: "500 R$",  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🤝", name: "VIP",                  price: "1 500 R$",robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
     ];
 
-    const rolesHR = [
-      { name: "Triple OG",    price: 1000, robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Executive",    price: 1300, robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "Supervisor",   price: 1600, robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "ENG Manager",  price: 2000, robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "FR Manager",   price: 2000, robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { name: "War Leader",   price: 3000, robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+    const staff = [
+      { emoji: "📄", name: "Helper",        price: "1 000 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🛡️", name: "Support",       price: "1 200 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🔨", name: "Moderator",     price: "1 500 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "💎", name: "Administrator", price: "1 750 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🌪️", name: "Head Staff",    price: "2 000 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
     ];
 
-    function buildCards(items, gridId, isHR = false) {
+    const hr = [
+      { emoji: "🛡️", name: "Head Admin",         price: "2 000 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🤝", name: "Left Arm",            price: "2 100 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🥈", name: "Second In Command",   price: "2 300 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🥇", name: "First In Command",    price: "2 500 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "📋", name: "Staff Management",    price: "2 700 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "💪", name: "Right Arm",           price: "2 850 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "👑", name: "Triple OG",           price: "3 000 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+    ];
+
+    function buildCards(items, gridId, category) {
       const grid = document.getElementById(gridId);
       items.forEach(item => {
         const card = document.createElement('div');
@@ -212,9 +197,10 @@
         card.innerHTML = `
           <img class="item-img" src="${IMAGE}" alt="${item.name}">
           <div class="item-info">
-            <div class="item-category">${isHR ? '<span class="hr-badge">HR</span> ' : ''}ROLES</div>
+            <span class="item-emoji">${item.emoji}</span>
+            <div class="item-category">${category}</div>
             <div class="item-name">${item.name}</div>
-            <div class="item-price"> <span>${item.price} Robux</span></div>
+            <div class="item-price">${item.price}</div>
             <div class="item-footer">
               <a class="buy-btn" href="${item.robloxLink}" target="_blank" rel="noopener">
                 🛒 Buy
@@ -226,8 +212,9 @@
       });
     }
 
-    buildCards(roles, 'grid-roles', false);
-    buildCards(rolesHR, 'grid-hr', true);
+    buildCards(members, 'grid-members', 'MEMBERS ROLES');
+    buildCards(staff,   'grid-staff',   'STAFF ROLES');
+    buildCards(hr,      'grid-hr',      'HR ROLES');
   </script>
 
 </body>
