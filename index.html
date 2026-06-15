@@ -28,8 +28,22 @@
     }
 
     .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .nav-logo-name { font-size: 20px; font-weight: 800; color: #ffffff; }
-    .nav-logo-name span { color: #e74c3c; }
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+    .nav-logo-name {
+      font-size: 26px;
+      font-weight: 900;
+      color: #ffffff;
+      font-family: 'Bebas Neue', 'Segoe UI', sans-serif;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(231,76,60,0.4);
+    }
+    .nav-logo-name span {
+      background: linear-gradient(135deg, #ff6b6b, #c0392b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
     .shop-body { position: relative; z-index: 1; padding: 36px 32px; }
 
@@ -70,6 +84,7 @@
       overflow: hidden;
       border: 1px solid #1e1e3a;
       transition: border-color 0.25s, transform 0.2s;
+      position: relative;
     }
 
     .item-card:hover { border-color: #c0392b; transform: translateY(-3px); }
@@ -110,22 +125,30 @@
     .item-footer { display: flex; align-items: center; justify-content: flex-end; }
 
     .buy-btn {
-      background: #c0392b;
+      background: linear-gradient(135deg, #e74c3c, #8b0000);
       color: #fff;
       border: none;
-      border-radius: 8px;
-      padding: 9px 18px;
+      border-radius: 50px;
+      padding: 10px 22px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
       text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(192,57,43,0.4);
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
     }
 
-    .buy-btn:hover { background: #a93226; transform: scale(1.03); }
+    .buy-btn:hover {
+      background: linear-gradient(135deg, #ff6b6b, #c0392b);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(192,57,43,0.6);
+    }
     .buy-btn:active { transform: scale(0.97); }
 
 
@@ -190,18 +213,49 @@
     }
 
 
-    /* ── GLOW ROUGE HR ── */
+    /* ── GLOW ROUGE HR + PULSE ── */
+    @keyframes pulse-glow {
+      0%   { box-shadow: 0 0 8px rgba(192,57,43,0.3), 0 0 16px rgba(192,57,43,0.15); }
+      50%  { box-shadow: 0 0 20px rgba(231,76,60,0.7), 0 0 40px rgba(192,57,43,0.4); }
+      100% { box-shadow: 0 0 8px rgba(192,57,43,0.3), 0 0 16px rgba(192,57,43,0.15); }
+    }
+
     #grid-hr .item-card {
       border-color: #c0392b;
-      box-shadow: 0 0 10px rgba(192,57,43,0.3), 0 0 20px rgba(192,57,43,0.15);
-      transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+      animation: pulse-glow 2s ease-in-out infinite;
+      transition: border-color 0.25s, transform 0.2s;
     }
 
     #grid-hr .item-card:hover {
       border-color: #e74c3c;
-      box-shadow: 0 0 20px rgba(231,76,60,0.6), 0 0 40px rgba(192,57,43,0.3);
+      animation: none;
+      box-shadow: 0 0 25px rgba(231,76,60,0.8), 0 0 50px rgba(192,57,43,0.4);
       transform: translateY(-3px);
     }
+
+
+    /* ── SHIMMER BOUTON BUY ── */
+    .buy-btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .buy-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 200%; }
+    }
+
 
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #0d0d1a; }
@@ -312,32 +366,32 @@
     const IMAGE = "harlem_spartan.png";
 
     const members = [
-      { emoji: "🎒", name: "Active Members",      price: "15 R$",   robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🪖", name: "Elite",               price: "25 R$",   robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🚬", name: "Gangster's",           price: "50 R$",   robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🗿", name: "Real Gangster's",      price: "100 R$",  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "⚓", name: "Original Gangster's",  price: "200 R$",  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🎓", name: "Captain",              price: "350 R$",  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🗽", name: "Headz Captain's",      price: "500 R$",  robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🤝", name: "VIP",                  price: "1 500 R$",robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🎒", name: "Active Members",      price: "50 R$",    robloxLink: "https://www.roblox.com/fr/game-pass/1875538059/Active-Members" },
+      { emoji: "🪖", name: "Elite",               price: "100 R$",   robloxLink: "https://www.roblox.com/game-pass/861569354/Elite" },
+      { emoji: "🚬", name: "Gangster's",           price: "200 R$",   robloxLink: "https://www.roblox.com/fr/game-pass/1876371956/Gangster-s" },
+      { emoji: "🗿", name: "Real Gangster's",      price: "350 R$",   robloxLink: "https://www.roblox.com/game-pass/861854867/Real-Gangster-s" },
+      { emoji: "⚓", name: "Original Gangster's",  price: "500 R$",   robloxLink: "https://www.roblox.com/fr/game-pass/1875556017/Original-Gangster-s" },
+      { emoji: "🎓", name: "Captain",              price: "750 R$",   robloxLink: "https://www.roblox.com/game-pass/862152701/Captain" },
+      { emoji: "🗽", name: "Headz Captain's",      price: "900 R$",   robloxLink: "https://www.roblox.com/fr/game-pass/1875160007/Headz-Captain-s" },
+      { emoji: "🤝", name: "VIP",                  price: "1 500 R$", robloxLink: "https://www.roblox.com/game-pass/862104796/VIP" },
     ];
 
     const staff = [
-      { emoji: "📄", name: "Helper",        price: "1 000 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🛡️", name: "Support",       price: "1 200 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🔨", name: "Moderator",     price: "1 500 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "💎", name: "Administrator", price: "1 750 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🌪️", name: "Head Staff",    price: "2 000 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "📄", name: "Helper",        price: "1 000 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1875345938/Helper" },
+      { emoji: "🛡️", name: "Support",       price: "1 200 R$", robloxLink: "https://www.roblox.com/game-pass/862640896/Support" },
+      { emoji: "🔨", name: "Moderator",     price: "1 500 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1874931956/Moderator" },
+      { emoji: "💎", name: "Administrator", price: "1 750 R$", robloxLink: "https://www.roblox.com/game-pass/872380402/Administrator" },
+      { emoji: "🌪️", name: "Head Staff",    price: "2 000 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1876323970/Head-Staff" },
     ];
 
     const hr = [
-      { emoji: "🛡️", name: "Head Admin",         price: "2 000 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🤝", name: "Left Arm",            price: "2 100 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🥈", name: "Second In Command",   price: "2 300 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "🥇", name: "First In Command",    price: "2 500 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "📋", name: "Staff Management",    price: "2 700 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "💪", name: "Right Arm",           price: "2 850 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
-      { emoji: "👑", name: "Triple OG",           price: "3 000 R$", robloxLink: "https://www.roblox.com/game-pass/REMPLACE_ICI" },
+      { emoji: "🛡️", name: "Head Admin",         price: "2 000 R$", robloxLink: "https://www.roblox.com/game-pass/874350205/Head-Admin" },
+      { emoji: "🤝", name: "Left Arm",            price: "2 100 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1874901989/Left-Arm" },
+      { emoji: "🥈", name: "Second In Command",   price: "2 300 R$", robloxLink: "https://www.roblox.com/game-pass/874227463/Second-In-Command" },
+      { emoji: "🥇", name: "First In Command",    price: "2 500 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1876330003/First-In-Command" },
+      { emoji: "📋", name: "Staff Management",    price: "2 700 R$", robloxLink: "#" },
+      { emoji: "💪", name: "Right Arm",           price: "2 850 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1875711995/Right-Arm" },
+      { emoji: "👑", name: "Triple OG",           price: "3 000 R$", robloxLink: "https://www.roblox.com/game-pass/874207543/Triple-OG" },
     ];
 
     function buildCards(items, gridId, category) {
@@ -370,6 +424,14 @@
 
 
   <!-- POPUP -->
+  <style>
+    @keyframes zoom-in {
+      0%   { transform: scale(0.5); opacity: 0; }
+      70%  { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+
   <div id="popup-overlay" style="
     position: fixed; inset: 0; background: rgba(0,0,0,0.85);
     display: flex; align-items: center; justify-content: center;
@@ -382,7 +444,8 @@
       max-width: 480px;
       width: 90%;
       text-align: center;
-      box-shadow: 0 0 40px rgba(192,57,43,0.3);">
+      box-shadow: 0 0 40px rgba(192,57,43,0.3);
+      animation: zoom-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;">
       
       <div style="font-size: 36px; margin-bottom: 14px;">⚠️</div>
       
@@ -502,6 +565,31 @@
       © 2023 <span style="color: #e74c3c;">Harlem Spartan</span> — Tous droits réservés
     </p>
   </footer>
+
+
+  <!-- EFFET INCLINAISON 3D SUR LES CARTES -->
+  <script>
+    document.querySelectorAll('.item-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rotateX = ((y - cy) / cy) * -12;
+        const rotateY = ((x - cx) / cx) * 12;
+        card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+        card.style.transition = 'transform 0.1s ease';
+        card.style.boxShadow = `${-rotateY}px ${rotateX}px 20px rgba(192,57,43,0.3)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
+        card.style.transition = 'transform 0.4s ease, box-shadow 0.4s ease';
+        card.style.boxShadow = '';
+      });
+    });
+  </script>
 
 </body>
 </html>
