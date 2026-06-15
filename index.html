@@ -15,7 +15,7 @@
       min-height: 100vh;
     }
 
-    .navbar { position: relative; z-index: 100;
+    .navbar {
       background: #111127;
       border-bottom: 1px solid #1e1e3a;
       display: flex;
@@ -85,6 +85,7 @@
       border: 1px solid #1e1e3a;
       transition: border-color 0.25s, transform 0.2s;
       position: relative;
+      z-index: 2;
     }
 
     .item-card:hover { border-color: #c0392b; transform: translateY(-3px); }
@@ -142,6 +143,7 @@
       transition: all 0.25s;
       position: relative;
       overflow: hidden;
+      z-index: 3;
     }
 
     .buy-btn:hover {
@@ -150,7 +152,6 @@
       box-shadow: 0 6px 20px rgba(192,57,43,0.6);
     }
     .buy-btn:active { transform: scale(0.97); }
-
 
     /* ── SEARCH BAR ── */
     .search-bar-wrap {
@@ -212,7 +213,6 @@
       grid-column: 1 / -1;
     }
 
-
     /* ── GLOW ROUGE HR + PULSE ── */
     @keyframes pulse-glow {
       0%   { box-shadow: 0 0 8px rgba(192,57,43,0.3), 0 0 16px rgba(192,57,43,0.15); }
@@ -233,13 +233,7 @@
       transform: translateY(-3px);
     }
 
-
     /* ── SHIMMER BOUTON BUY ── */
-    .buy-btn {
-      position: relative;
-      overflow: hidden;
-    }
-
     .buy-btn::after {
       content: '';
       position: absolute;
@@ -256,10 +250,34 @@
       100% { left: 200%; }
     }
 
-
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #0d0d1a; }
     ::-webkit-scrollbar-thumb { background: #c0392b; border-radius: 3px; }
+
+    /* ── POPUP ── */
+    @keyframes zoom-in {
+      0%   { transform: scale(0.5); opacity: 0; }
+      70%  { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    #popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      /* FIX: pointer-events géré via JS à la fermeture */
+    }
+
+    #popup-overlay.hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   </style>
 </head>
 <body>
@@ -270,7 +288,6 @@
     </a>
   </nav>
 
-  
   <!-- BANNIERE ANIMEE -->
   <div id="banner" style="
     text-align: center;
@@ -304,12 +321,7 @@
       <span style="font-size: 20px;">👥</span>
       <span style="font-size: 15px; font-weight: 800; color: #fff;">+20 000 <span style="color: #e74c3c;">membres</span> dans Harlem Spartan</span>
     </div>
-
   </div>
-
-  <style>
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  </style>
 
   <script>
     const words = ["HARLEM SPARTAN", "OFFICIAL SHOP", "HARLEM SPARTAN"];
@@ -340,7 +352,7 @@
     setTimeout(type, 800);
   </script>
 
-<div class="shop-body">
+  <div class="shop-body">
     <!-- SEARCH BAR -->
     <div class="search-bar-wrap">
       <input class="search-bar" type="text" id="search-input" placeholder="🔍  Rechercher un rôle... / Search a role...">
@@ -389,7 +401,7 @@
       { emoji: "🤝", name: "Left Arm",            price: "2 100 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1874901989/Left-Arm" },
       { emoji: "🥈", name: "Second In Command",   price: "2 300 R$", robloxLink: "https://www.roblox.com/game-pass/874227463/Second-In-Command" },
       { emoji: "🥇", name: "First In Command",    price: "2 500 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1876330003/First-In-Command" },
-      { emoji: "📋", name: "Staff Management",    price: "2 700 R$", robloxLink: "#" },
+      { emoji: "📋", name: "Staff Management",    price: "2 700 R$", robloxLink: "https://www.roblox.com/game-pass/874166668/Staff-Management" },
       { emoji: "💪", name: "Right Arm",           price: "2 850 R$", robloxLink: "https://www.roblox.com/fr/game-pass/1875711995/Right-Arm" },
       { emoji: "👑", name: "Triple OG",           price: "3 000 R$", robloxLink: "https://www.roblox.com/game-pass/874207543/Triple-OG" },
     ];
@@ -407,7 +419,7 @@
             <div class="item-name">${item.name}</div>
             <div class="item-price">${item.price}</div>
             <div class="item-footer">
-              <a class="buy-btn" href="${item.robloxLink}" target="_blank" rel="noopener">
+              <a class="buy-btn" href="${item.robloxLink}" target="_blank" rel="noopener noreferrer">
                 🛒 Buy
               </a>
             </div>
@@ -420,22 +432,31 @@
     buildCards(members, 'grid-members', 'MEMBERS ROLES');
     buildCards(staff,   'grid-staff',   'STAFF ROLES');
     buildCards(hr,      'grid-hr',      'HR ROLES');
+
+    // Effet 3D inclinaison (après génération des cartes)
+    document.querySelectorAll('.item-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rotateX = ((y - cy) / cy) * -12;
+        const rotateY = ((x - cx) / cx) * 12;
+        card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+        card.style.transition = 'transform 0.1s ease';
+        card.style.boxShadow = `${-rotateY}px ${rotateX}px 20px rgba(192,57,43,0.3)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
+        card.style.transition = 'transform 0.4s ease, box-shadow 0.4s ease';
+        card.style.boxShadow = '';
+      });
+    });
   </script>
 
-
   <!-- POPUP -->
-  <style>
-    @keyframes zoom-in {
-      0%   { transform: scale(0.5); opacity: 0; }
-      70%  { transform: scale(1.05); opacity: 1; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-  </style>
-
-  <div id="popup-overlay" style="
-    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 9999;">
+  <div id="popup-overlay">
     <div style="
       background: #13132a;
       border: 2px solid #c0392b;
@@ -446,26 +467,25 @@
       text-align: center;
       box-shadow: 0 0 40px rgba(192,57,43,0.3);
       animation: zoom-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;">
-      
+
       <div style="font-size: 36px; margin-bottom: 14px;">⚠️</div>
-      
+
       <h2 style="color: #e74c3c; font-size: 20px; font-weight: 800; margin-bottom: 24px; letter-spacing: 1px;">
         IMPORTANT
       </h2>
 
-      <!-- FRANÇAIS -->
       <p style="color: #fff; font-size: 15px; font-weight: 600; line-height: 1.7; margin-bottom: 20px;">
         🇫🇷 Après votre achat, veuillez ouvrir un <span style="color:#e74c3c; font-weight:800;">ticket shop</span> dans le serveur Discord pour recevoir votre rôle.
       </p>
 
       <hr style="border: none; border-top: 1px solid #1e1e3a; margin-bottom: 20px;">
 
-      <!-- ENGLISH -->
       <p style="color: #aaa; font-size: 15px; font-weight: 600; line-height: 1.7; margin-bottom: 28px;">
         🇬🇧 After your purchase, please open a <span style="color:#e74c3c; font-weight:800;">shop ticket</span> in the Discord server to receive your role.
       </p>
 
-      <button onclick="document.getElementById('popup-overlay').style.display='none'" style="
+      <!-- FIX : utilise la classe CSS au lieu de style inline pour vraiment retirer le pointer-events -->
+      <button onclick="document.getElementById('popup-overlay').classList.add('hidden')" style="
         background: #c0392b;
         color: #fff;
         border: none;
@@ -479,7 +499,7 @@
     </div>
   </div>
 
-  <!-- PARTICULES ROUGES -->
+  <!-- PARTICULES ROUGES (z-index 0, derrière tout) -->
   <canvas id="particles-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;"></canvas>
   <script>
     const canvas = document.getElementById('particles-canvas');
@@ -493,7 +513,6 @@
 
     const particles = [];
     const count = 60;
-
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
@@ -513,11 +532,9 @@
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(" + p.color + "," + p.alpha + ")";
         ctx.fill();
-
         p.x += p.dx;
         p.y += p.dy;
         p.alpha -= 0.002;
-
         if (p.y < 0 || p.alpha <= 0) {
           p.y = canvas.height;
           p.x = Math.random() * canvas.width;
@@ -551,7 +568,6 @@
     });
   </script>
 
-
   <!-- FOOTER -->
   <footer style="
     background: #111127;
@@ -565,31 +581,6 @@
       © 2023 <span style="color: #e74c3c;">Harlem Spartan</span> — Tous droits réservés
     </p>
   </footer>
-
-
-  <!-- EFFET INCLINAISON 3D SUR LES CARTES -->
-  <script>
-    document.querySelectorAll('.item-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-        const rotateX = ((y - cy) / cy) * -12;
-        const rotateY = ((x - cx) / cx) * 12;
-        card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
-        card.style.transition = 'transform 0.1s ease';
-        card.style.boxShadow = `${-rotateY}px ${rotateX}px 20px rgba(192,57,43,0.3)`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
-        card.style.transition = 'transform 0.4s ease, box-shadow 0.4s ease';
-        card.style.boxShadow = '';
-      });
-    });
-  </script>
 
 </body>
 </html>
